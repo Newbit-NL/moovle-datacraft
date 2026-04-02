@@ -1,0 +1,48 @@
+schema:
+  name: reporting
+tables:
+  monitor:
+    - name: syncLog
+      columns: "
+        id BIGINT AUTO_INCREMENT NOT NULL,
+        tableName VARCHAR(150) NOT NULL,
+        date DATE NOT NULL,
+        records INT NOT NULL,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        "
+      indexes: NULL
+      constraints:
+        - name: PK
+          type: PRIMARY KEY
+          clustered: true
+          columns:
+            - "[tableName]"
+            - "[date] DESC"
+  fact:
+    # - name: test
+    #   columns: "
+    #     [id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+    #     [number] NVARCHAR(50) NOT NULL,
+    #     fullyShipped BIT NOT NULL,
+    #     status NVARCHAR(50) NOT NULL,
+    #     internalEntityId INT NOT NULL,
+    #     lastModifiedDateTime DATETIME NOT NULL,
+    #     insertedTimestamp DATETIME NOT NULL
+    #     CONSTRAINT $NAME_ts DEFAULT CURRENT_TIMESTAMP
+    #     "
+    #   indexes:
+    #     - name: IX_Id
+    #       columns:
+    #         - id
+    #         - internalEntityId
+
+  meta:
+    # - name: internalEntities
+    #   columns: "
+    #     [entity_name] NVARCHAR(255) NOT NULL,
+    #     [id] INT NOT NULL PRIMARY KEY,
+    #     [entity_id] UNIQUEIDENTIFIER NOT NULL,
+    #     [matching_name] NVARCHAR(255) NULL,
+    #     insertedTimestamp DATETIMEOFFSET NOT NULL
+    #     CONSTRAINT $NAME_ts DEFAULT SYSDATETIMEOFFSET()
+    #     "
