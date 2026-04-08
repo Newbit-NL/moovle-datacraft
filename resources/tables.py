@@ -250,6 +250,67 @@ class Tables:
             })
         return pd.DataFrame(data)
 
+    def generalLedgerAccounts(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'no': e['no'],
+                'no2': e['no2'],
+                'name': e['name'],
+                'incomeBalance': e['incomeBalance'],
+                'accountCategory': e['accountCategory'],
+                'accountSubcategoryEntryNo': e['accountSubcategoryEntryNo'],
+                'accountSubcategoryDescription': e['accountSubcategoryDescript'],
+                'debitCredit': e['debitCredit'],
+                'accountType': e['accountType'],
+                'totaling': e['totaling'],
+                'balance': e['balance'],
+                'lastModifiedDateTime': parsingDateTime(e['lastModifiedDateTime']),
+                'genPostingType': e['genPostingType'],
+                'vatProdPostingGroup': e['vatProdPostingGroup']
+
+            })
+        return pd.DataFrame(data)
+
+    def customerLedgerEntries(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'entryNo': e['entryNo'],
+                'customerNo': e['customerNo'],
+                'postingDate': parsingDate(e['postingDate']),
+                'documentNo': e['documentNo'],
+                'description': e['description'],
+                'originalAmtLCY': e['originalAmtLCY'],
+                'remainingAmtLCY': e['remainingAmtLCY'],
+                'customerPostingGroup': e['customerPostingGroup'],
+                'open': e['open'],
+                'dueDate': parsingDate(e['dueDate']),
+
+            })
+        return pd.DataFrame(data)
+
+    def vendorLedgerEntries(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'entryNo': e['entryNo'],
+                'vendorNo': e['vendorNo'],
+                'postingDate': parsingDate(e['postingDate']),
+                'documentNo': e['documentNo'],
+                'description': e['description'],
+                'originalAmtLCY': e['originalAmtLCY'],
+                'remainingAmtLCY': e['remainingAmtLCY'],
+                'amountLCY': e['amountLCY'],
+                'purchaseLCY': e['purchaseLCY'],
+                'open': e['open'],
+                'dueDate': parsingDate(e['dueDate']),
+
+            })
+        return pd.DataFrame(data)
 
 
 
@@ -268,7 +329,7 @@ class Tables:
 
         if 1 == 1:
             with open('kaas.json', 'w', encoding='utf-8') as f:
-                json.dump(resp[:10], f, indent=4, ensure_ascii=False)
+                json.dump(resp, f, indent=4, ensure_ascii=False)
             exit()
 
         for e in resp:

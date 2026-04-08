@@ -260,6 +260,47 @@ tables:
           columns:
             - id
 
+    - name: customerLedgerEntries
+      columns: "
+        id CHAR(36) NOT NULL,
+        entryNo INT,
+        customerNo VARCHAR(50),
+        postingDate DATE,
+        documentNo VARCHAR(50),
+        description VARCHAR(255),
+        originalAmtLCY DECIMAL(18,2),
+        remainingAmtLCY DECIMAL(18,2),
+        customerPostingGroup VARCHAR(50),
+        open BOOLEAN,
+        dueDate DATE
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
+    - name: vendorLedgerEntries
+      columns: "
+        id CHAR(36) NOT NULL,
+        entryNo INT,
+        vendorNo VARCHAR(50),
+        postingDate DATE,
+        documentNo VARCHAR(50),
+        description VARCHAR(255),
+        originalAmtLCY DECIMAL(18,2),
+        remainingAmtLCY DECIMAL(18,2),
+        amountLCY DECIMAL(18,2),
+        purchaseLCY DECIMAL(18,2),
+        open BOOLEAN,
+        dueDate DATE,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
   meta:
     # - name: internalEntities
     #   columns: "
@@ -270,3 +311,22 @@ tables:
     #     insertedTimestamp DATETIMEOFFSET NOT NULL
     #     CONSTRAINT $NAME_ts DEFAULT SYSDATETIMEOFFSET()
     #     "
+    - name: generalLedgerAccounts
+      columns: "
+        id CHAR(36) NOT NULL,
+        no VARCHAR(30),
+        no2 VARCHAR(30),
+        name VARCHAR(100),
+        incomeBalance VARCHAR(50),
+        accountCategory VARCHAR(50),
+        accountSubcategoryEntryNo INT,
+        accountSubcategoryDescription VARCHAR(100),
+        debitCredit VARCHAR(10),
+        accountType VARCHAR(50),
+        totaling VARCHAR(100),
+        balance DECIMAL(18,2),
+        lastModifiedDateTime DATETIME,
+        genPostingType VARCHAR(50),
+        vatProdPostingGroup VARCHAR(50),
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
