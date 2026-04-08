@@ -446,8 +446,164 @@ class Tables:
             })
         return pd.DataFrame(data)
 
+    def wmsDocumentCommentLines(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'documentType': e['documentType'],
+                'documentNo': e['documentNo'],
+                'documentLineNo': e['documentLineNo'],
+                'lineNo': e['lineNo'],
+                'date': e['date'],
+                'code': e['code'],
+                'comment': e['comment'],
+                'instruction': e['instruction'],
+                'source': e['source']
+            })
+        return pd.DataFrame(data)
 
+    def wmsBuildings(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'code': e['code'],
+                'name': e['name'],
+                'addressNo': e['addressNo'],
+                'conditionSetID': e['conditionSetID'],
+                'modifiedDateTime': parsingDateTime(e['modifiedDateTime'])
+            })
+        return pd.DataFrame(data)
 
+    def customers(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'no': e['no'],
+                "name": e['name'],
+                "city": e['city'],
+                "ourAccountNo": e['ourAccountNo'],
+                "territoryCode": e['territoryCode'],
+                "globalDimension1Code": e['globalDimension1Code'],
+                "globalDimension2Code": e['globalDimension2Code'],
+                "chainName": e['chainName'],
+                "salespersonCode": e['salespersonCode'],
+                "countryRegionCode": e['countryRegionCode'],
+                "comment": e['comment'],
+                "blocked": e['blocked'],
+                "paymentMethodCode": e['paymentMethodCode'],
+                "lastModifiedDateTime": parsingDateTime(e['lastModifiedDateTime']),
+                "salesLCY": e['salesLCY'],
+                "profitLCY": e['profitLCY'],
+                "balanceDueLCY": e['balanceDueLCY'],
+                "paymentsLCY": e['paymentsLCY'],
+                "invAmountsLCY": e['invAmountsLCY'],
+                "crMemoAmountsLCY": e['crMemoAmountsLCY'],
+                "outstandingOrdersLCY": e['outstandingOrdersLCY'],
+                "outstandingInvoicesLCY": e['outstandingInvoicesLCY'],
+                "noOfQuotes": e['noOfQuotes'],
+                "noOfBlanketOrders": e['noOfBlanketOrders'],
+                "noOfOrders": e['noOfOrders'],
+                "noOfInvoices": e['noOfInvoices'],
+                "noOfReturnOrders": e['noOfReturnOrders'],
+                "noOfCreditMemos": e['noOfCreditMemos'],
+                "lastInvoiced3PL": parsingDate(e['lastInvoiced3PL'])
+            })
+
+        return pd.DataFrame(data)
+
+    def contacts(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'systemModifiedAt': parsingDateTime(e['systemModifiedAt']),
+                'no': e['no'],
+                'type': e['type'],
+                'name': e['name'],
+                'searchName': e['searchName'],
+                'city': e['city'],
+                'eMail': e['eMail'],
+                'companyNo': e['companyNo'],
+                'companyName': e['companyName'],
+                'customerNo3PL': e['customerNo3PL'],
+                'vendorNo3PL': e['vendorNo3PL'],
+                'statusCode3PL': e['statusCode3PL'],
+            })
+
+        return pd.DataFrame(data)
+
+    def vendors(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'no': e['no'],
+                'name': e['name'],
+                'city': e['city'],
+                'ourAccountNo': e['ourAccountNo'],
+                'territoryCode': e['territoryCode'],
+                'globalDimension1Code': e['globalDimension1Code'],
+                'globalDimension2Code': e['globalDimension2Code'],
+                'budgetedAmount': e['budgetedAmount'],
+                'shipmentMethodCode': e['shipmentMethodCode'],
+                'priority': e['priority'],
+                'lastModifiedDateTime': parsingDateTime(e['lastModifiedDateTime']),
+                'balanceLCY': e['balanceLCY'],
+                'invDiscountsLCY': e['invDiscountsLCY'],
+                'pmtDiscountsLCY': e['pmtDiscountsLCY'],
+                'balanceDueLCY': e['balanceDueLCY'],
+                'invAmountsLCY': e['invAmountsLCY'],
+                'outstandingOrders': e['outstandingOrders'],
+                'reminderAmountsLCY': e['reminderAmountsLCY'],
+                'outstandingInvoicesLCY': e['outstandingInvoicesLCY'],
+                'noOfOrders': e['noOfOrders'],
+                'noOfInvoices': e['noOfInvoices'],
+                'noOfReturnOrders': e['noOfReturnOrders'],
+                'noOfCreditMemos': e['noOfCreditMemos'],
+                'statusCode3PL': e['statusCode3PL']
+            })
+
+        return pd.DataFrame(data)
+
+    def purchaseHeaders(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                "documentType": e['documentType'],
+                "no": e['no'],
+                "payToVendorNo": e['payToVendorNo'],
+                "payToName": e['payToName'],
+                "yourReference": e['yourReference'],
+                "orderDate": parsingDate(e['orderDate']),
+                "postingDate": parsingDate(e['postingDate']),
+                "purchaserCode": e['purchaserCode'],
+                "amount": e['amount'],
+                "amountIncludingVAT": e['amountIncludingVAT'],
+                "vendorInvoiceNo": e['vendorInvoiceNo'],
+                "documentDate": parsingDate(e['documentDate'])
+            })
+
+        return pd.DataFrame(data)
+
+    def statusLog(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'systemModifiedAt': parsingDateTime(e['systemModifiedAt']),
+                'entryNo': e['entryNo'],
+                'documentNo': e['documentNo'],
+                'oldStatusCode': e['oldStatusCode'],
+                'newStatusCode': e['newStatusCode'],
+                'userID': e['userID'],
+                'templateCode': e['templateCode']
+            })
+
+        return pd.DataFrame(data)
 
 
     def sample(resp):

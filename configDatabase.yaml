@@ -424,6 +424,64 @@ tables:
           columns:
             - id
 
+    - name: wmsDocumentCommentLines
+      columns: "
+        id CHAR(36) NOT NULL,
+        documentType VARCHAR(50),
+        documentNo VARCHAR(50),
+        documentLineNo INT,
+        lineNo INT,
+        date DATE,
+        code VARCHAR(50),
+        comment VARCHAR(255),
+        instruction VARCHAR(255),
+        source VARCHAR(50),
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
+    - name: purchaseHeaders
+      columns: "
+        id CHAR(36) NOT NULL,
+        documentType VARCHAR(50),
+        no VARCHAR(50),
+        payToVendorNo VARCHAR(50),
+        payToName VARCHAR(100),
+        yourReference VARCHAR(100),
+        orderDate DATE,
+        postingDate DATE,
+        purchaserCode VARCHAR(50),
+        amount DECIMAL(18,2),
+        amountIncludingVAT DECIMAL(18,2),
+        vendorInvoiceNo VARCHAR(50),
+        documentDate DATE,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
+    - name: statusLog
+      columns: "
+        id CHAR(36) NOT NULL,
+        systemModifiedAt DATETIME,
+        entryNo BIGINT,
+        documentNo VARCHAR(50),
+        oldStatusCode VARCHAR(50),
+        newStatusCode VARCHAR(50),
+        userID VARCHAR(50),
+        templateCode VARCHAR(50),
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
   meta:
     # - name: internalEntities
     #   columns: "
@@ -463,5 +521,99 @@ tables:
         city VARCHAR(100),
         countryRegionName VARCHAR(100),
         modifiedDateTime DATETIME,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+
+    - name: wmsBuildings
+      columns: "
+        id CHAR(36) NOT NULL,
+        code VARCHAR(50),
+        name VARCHAR(100),
+        addressNo VARCHAR(50),
+        conditionSetID INT,
+        modifiedDateTime DATETIME,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+
+    - name: customers
+      columns: "
+        id CHAR(36) NOT NULL,
+        no VARCHAR(50),
+        name VARCHAR(100),
+        city VARCHAR(100),
+        ourAccountNo VARCHAR(50),
+        territoryCode VARCHAR(50),
+        globalDimension1Code VARCHAR(50),
+        globalDimension2Code VARCHAR(50),
+        chainName VARCHAR(100),
+        salespersonCode VARCHAR(50),
+        countryRegionCode VARCHAR(50),
+        comment BOOLEAN,
+        blocked VARCHAR(50),
+        paymentMethodCode VARCHAR(50),
+        lastModifiedDateTime DATETIME,
+        salesLCY DECIMAL(18,2),
+        profitLCY DECIMAL(18,2),
+        balanceDueLCY DECIMAL(18,2),
+        paymentsLCY DECIMAL(18,2),
+        invAmountsLCY DECIMAL(18,2),
+        crMemoAmountsLCY DECIMAL(18,2),
+        outstandingOrdersLCY DECIMAL(18,2),
+        outstandingInvoicesLCY DECIMAL(18,2),
+        noOfQuotes INT,
+        noOfBlanketOrders INT,
+        noOfOrders INT,
+        noOfInvoices INT,
+        noOfReturnOrders INT,
+        noOfCreditMemos INT,
+        lastInvoiced3PL DATE,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+
+    - name: contacts
+      columns: "
+        id CHAR(36) NOT NULL,
+        systemModifiedAt DATETIME,
+        no VARCHAR(50),
+        type VARCHAR(50),
+        name VARCHAR(100),
+        searchName VARCHAR(100),
+        city VARCHAR(100),
+        eMail VARCHAR(150),
+        companyNo VARCHAR(50),
+        companyName VARCHAR(100),
+        customerNo3PL VARCHAR(50),
+        vendorNo3PL VARCHAR(50),
+        statusCode3PL VARCHAR(50),
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+
+    - name: vendors
+      columns: "
+        id CHAR(36) NOT NULL,
+        no VARCHAR(50),
+        name VARCHAR(150),
+        city VARCHAR(100),
+        ourAccountNo VARCHAR(50),
+        territoryCode VARCHAR(50),
+        globalDimension1Code VARCHAR(50),
+        globalDimension2Code VARCHAR(50),
+        budgetedAmount DECIMAL(18,2),
+        shipmentMethodCode VARCHAR(50),
+        priority INT,
+        lastModifiedDateTime DATETIME,
+        balanceLCY DECIMAL(18,2),
+        invDiscountsLCY DECIMAL(18,2),
+        pmtDiscountsLCY DECIMAL(18,2),
+        balanceDueLCY DECIMAL(18,2),
+        invAmountsLCY DECIMAL(18,2),
+        outstandingOrders DECIMAL(18,2),
+        reminderAmountsLCY DECIMAL(18,2),
+        outstandingInvoicesLCY DECIMAL(18,2),
+        noOfOrders INT,
+        noOfInvoices INT,
+        noOfReturnOrders INT,
+        noOfCreditMemos INT,
+        statusCode3PL VARCHAR(50),
         insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id)"
