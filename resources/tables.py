@@ -313,6 +313,142 @@ class Tables:
         return pd.DataFrame(data)
 
 
+    def wmsDocumentContainers(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                "documentType": e['documentType'],
+                "documentNo": e['documentNo'],
+                "lineNo": e['lineNo'],
+                "containerNo": e['containerNo'],
+                "sizeCode": e['sizeCode'],
+                "loadingAddressNo": e['loadingAddressNo'],
+                "loadingReference": e['loadingReference'],
+                "loadingAddressName": e['loadingAddressName'],
+                "loadingAddressCity": e['loadingAddressCity'],
+                "unloadingAddressNo": e['unloadingAddressNo'],
+                "unloadingReference": e['unloadingReference'],
+                "unloadingAddressName": e['unloadingAddressName'],
+                "unloadingAddressCity": e['unloadingAddressCity'],
+                "pickUpAddressNo": e['pickUpAddressNo'],
+                "pickUpReference": e['pickUpReference'],
+                "pickUpAddressName": e['pickUpAddressName'],
+                "pickUpAddressCity": e['pickUpAddressCity'],
+                "dropOffAddressNo": e['dropOffAddressNo'],
+                "dropOffReference": e['dropOffReference'],
+                "dropOffAddressName": e['dropOffAddressName'],
+                "dropOffAddressCity": e['dropOffAddressCity'],
+                "loadingDateFrom": parsingDate(e['loadingDateFrom']),
+                "loadingDateTo": parsingDate(e['loadingDateTo']),
+                "loadingTimeFrom": e['loadingTimeFrom'],
+                "loadingTimeTo": e['loadingTimeTo'],
+                "unloadingDateFrom": parsingDate(e['unloadingDateFrom']),
+                "unloadingDateTo": parsingDate(e['unloadingDateTo']),
+                "unloadingTimeFrom": e['unloadingTimeFrom'],
+                "unloadingTimeTo": e['unloadingTimeTo'],
+                "inDemurrageDate": parsingDate(e['inDemurrageDate']),
+                "inDetentionDate": parsingDate(e['inDetentionDate']),
+                "shippingCompanyAddress": e['shippingCompanyAddress'],
+                "shippingCompanyName": e['shippingCompanyName'],
+                "etdDate": parsingDate(e['etdDate']),
+                "etdTime": e['etdTime'],
+                "etaDate": parsingDate(e['etaDate']),
+                "etaTime": e['etaTime'],
+                "vesselNo": e['vesselNo'],
+                "vesselname": e['vesselname'],
+                "billOfLadingNo": e['billOfLadingNo']
+            })
+        return pd.DataFrame(data)
+
+    def wmsPostedDocumentHeaders(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                "documentType": e['documentType'],
+                "no": e['no'],
+                'sellToCustomerNo': e['sellToCustomerNo'],
+                "sellToCustomerName": e['sellToCustomerName'],
+                "billToCustomerName": e['billToCustomerName'],
+                "buildingCode": e['buildingCode'],
+                "salespersonCode": e['salespersonCode'],
+                "direction": e['direction'],
+                "documentDate": parsingDate(e['documentDate']),
+                "postingDate": parsingDate(e['postingDate']),
+                "statusCode": e['statusCode'],
+                "modifiedDateTime": parsingDateTime(e['modifiedDateTime']),
+                "deliveryDate": parsingDate(e['deliveryDate']),
+                "customsCode": e['customsCode'],
+                "sendersAddressName": e['sendersAddressName'],
+                "shipToAddressName": e['shipToAddressName'],
+                "shortcutDimension2Code": e['shortcutDimension2Code'],
+                "attribute04": e['attribute04'],
+                "attribute05": e['attribute05']
+
+            })
+        return pd.DataFrame(data)
+
+    def wmsPostedDocumentLines(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'documentNo': e['documentNo'],
+                'lineNo': e['lineNo'],
+                'sellToCustomerNo': e['sellToCustomerNo'],
+                'lineAmountLCY': e['lineAmountLCY'],
+                'no': e['no'],
+                'description': e['description'],
+                'quantity': e['quantity'],
+                'modifiedDateTime': parsingDateTime(e['modifiedDateTime']),
+                'grossWeight': e['grossWeight'],
+                'netWeight': e['netWeight'],
+                'containerNo': e['containerNo'],
+                'vesselNo': e['vesselNo'],
+                'postingDate': parsingDate(e['postingDate'])
+
+            })
+        return pd.DataFrame(data)
+
+    def wmsDocumentPackageLines(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'documentType': e['documentType'],
+                'documentNo': e['documentNo'],
+                'documentLineNo': e['documentLineNo'],
+                'packageCode': e['packageCode'],
+                'numberOfPackages': e['numberOfPackages'],
+                'description': e['description'],
+                'cubage': e['cubage'],
+                'grossWeight': e['grossWeight'],
+                'containerLineNo': e['containerLineNo'],
+                'containerNo': e['containerNo'],
+                'modifiedDateTime': parsingDateTime(e['modifiedDateTime'])
+
+            })
+        return pd.DataFrame(data)
+
+    def wmsAddresses(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                "no": e['no'],
+                "name": e['name'],
+                "address": e['address'],
+                "city": e['city'],
+                "countryRegionName": e['countryRegionName'],
+                "modifiedDateTime": parsingDateTime(e['modifiedDateTime'])
+
+            })
+        return pd.DataFrame(data)
+
+
+
+
 
     def sample(resp):
         data = []

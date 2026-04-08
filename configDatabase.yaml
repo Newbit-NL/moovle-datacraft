@@ -301,6 +301,129 @@ tables:
           columns:
             - id
 
+    - name: wmsDocumentContainers
+      columns: "
+        id CHAR(36) NOT NULL,
+        documentType VARCHAR(50),
+        documentNo VARCHAR(50),
+        lineNo INT,
+        containerNo VARCHAR(50),
+        sizeCode VARCHAR(20),
+        loadingAddressNo VARCHAR(50),
+        loadingReference VARCHAR(100),
+        loadingAddressName VARCHAR(100),
+        loadingAddressCity VARCHAR(100),
+        unloadingAddressNo VARCHAR(50),
+        unloadingReference VARCHAR(100),
+        unloadingAddressName VARCHAR(100),
+        unloadingAddressCity VARCHAR(100),
+        pickUpAddressNo VARCHAR(50),
+        pickUpReference VARCHAR(100),
+        pickUpAddressName VARCHAR(100),
+        pickUpAddressCity VARCHAR(100),
+        dropOffAddressNo VARCHAR(50),
+        dropOffReference VARCHAR(100),
+        dropOffAddressName VARCHAR(100),
+        dropOffAddressCity VARCHAR(100),
+        loadingDateFrom DATE,
+        loadingDateTo DATE,
+        loadingTimeFrom TIME,
+        loadingTimeTo TIME,
+        unloadingDateFrom DATE,
+        unloadingDateTo DATE,
+        unloadingTimeFrom TIME,
+        unloadingTimeTo TIME,
+        inDemurrageDate DATE,
+        inDetentionDate DATE,
+        shippingCompanyAddress VARCHAR(255),
+        shippingCompanyName VARCHAR(100),
+        etdDate DATE,
+        etdTime TIME,
+        etaDate DATE,
+        etaTime TIME,
+        vesselNo VARCHAR(50),
+        vesselname VARCHAR(100),
+        billOfLadingNo VARCHAR(50),
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
+    - name: wmsPostedDocumentHeaders
+      columns: "
+        id CHAR(36) NOT NULL,
+        documentType VARCHAR(50),
+        no VARCHAR(50),
+        sellToCustomerNo VARCHAR(50),
+        sellToCustomerName VARCHAR(100),
+        billToCustomerName VARCHAR(100),
+        buildingCode VARCHAR(50),
+        salespersonCode VARCHAR(50),
+        direction VARCHAR(20),
+        documentDate DATE,
+        postingDate DATE,
+        statusCode VARCHAR(20),
+        modifiedDateTime DATETIME,
+        deliveryDate DATE,
+        customsCode VARCHAR(50),
+        sendersAddressName VARCHAR(100),
+        shipToAddressName VARCHAR(100),
+        shortcutDimension2Code VARCHAR(50),
+        attribute04 VARCHAR(100),
+        attribute05 VARCHAR(100),
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
+    - name: wmsPostedDocumentLines
+      columns: "
+        id CHAR(36) NOT NULL,
+        documentNo VARCHAR(50),
+        lineNo INT,
+        sellToCustomerNo VARCHAR(50),
+        lineAmountLCY DECIMAL(18,2),
+        no VARCHAR(50),
+        description VARCHAR(255),
+        quantity DECIMAL(18,2),
+        modifiedDateTime DATETIME,
+        grossWeight DECIMAL(18,2),
+        netWeight DECIMAL(18,2),
+        containerNo VARCHAR(50),
+        vesselNo VARCHAR(50),
+        postingDate DATE,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
+    - name: wmsDocumentPackageLines
+      columns: "
+        id CHAR(36) NOT NULL,
+        documentType VARCHAR(50),
+        documentNo VARCHAR(50),
+        documentLineNo INT,
+        packageCode VARCHAR(50),
+        numberOfPackages INT,
+        description VARCHAR(255),
+        cubage DECIMAL(18,2),
+        grossWeight DECIMAL(18,2),
+        containerLineNo INT,
+        containerNo VARCHAR(50),
+        modifiedDateTime DATETIME,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
   meta:
     # - name: internalEntities
     #   columns: "
@@ -328,5 +451,17 @@ tables:
         lastModifiedDateTime DATETIME,
         genPostingType VARCHAR(50),
         vatProdPostingGroup VARCHAR(50),
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+
+    - name: wmsAddresses
+      columns: "
+        id CHAR(36) NOT NULL,
+        no VARCHAR(50),
+        name VARCHAR(100),
+        address VARCHAR(255),
+        city VARCHAR(100),
+        countryRegionName VARCHAR(100),
+        modifiedDateTime DATETIME,
         insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id)"
