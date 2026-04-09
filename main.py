@@ -144,7 +144,7 @@ def main():
 
     for customer in customers:
         
-        s = secrets(vaultUrl='', local=True if app_env == 'local' else False, prefix=customer['credPrefix'])
+        s = secrets(vaultUrl='https://bi-prod-keyvault-svnshfg.vault.azure.net/', local=True if app_env == 'local' else False, prefix=customer['credPrefix'])
 
         clientSecret = s.get('ClientSecret')
         tenantId = s.get('TenantId')
