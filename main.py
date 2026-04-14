@@ -167,7 +167,7 @@ def main():
         synclog = dict(sqlc.execSingle(f"SELECT tableName, MAX(date) AS date FROM `{dbName}`.{syncLogName} GROUP BY tableName"))
         for t in tbls:
             testing = True if t['func'] == Tables.check else False
-
+            # testing = True
             tableName = t['name']
             print(f"Working on {tableName}") if app_env == 'local' else None
             endpoint = f'{t['urlDir']}{'/' if t['urlDir'] else ''}{t['endpoint']}'
@@ -175,11 +175,13 @@ def main():
 
             # print((makeFilter(synclog, tableName, t['filterField'], t.get('pars', None)) if t['filter'] else {}))
             # exit()
-
-            resp = get_resp(url, headers=headers, pagination=False if testing else True, addpars=(makeFilter(synclog, tableName, t['filterField'], t.get('pars', None)) if t['filter'] else {}), cols=t['cols'], expandCol=t['expandCol'], expandColSelect=t['expandColSelect'])
+            pars = (makeFilter(synclog, tableName, t['filterField'], t.get('pars', None)) if t['filter'] else {}) if not testing else {}
+            resp = get_resp(url, headers=headers, pagination=False if testing else True, addpars=pars, cols=t['cols'], expandCol=t['expandCol'], expandColSelect=t['expandColSelect'])
             if len(resp) == 0 and testing:
                 continue
             df = t['func'](resp)
+            # df.to_csv(f"check_{tableName}.csv", index=False, sep=";", mode='a', header=True)
+            # exit()
             try:
                 sqlc.writeMany(df, tableName, dbName, merge=t['merge'], mergeKeys=t['mergeKeys'])
             except Exception as e:
@@ -195,6 +197,9 @@ def main():
         
         print('LedgerEntries kolom isUTB vullen')
         sqlc.execSingle(Queries.fillLedgerTableIsUtb())
+        print('LedgerEntries kolom commercialLocationNo vullen')
+        sqlc.execSingle(Queries.fillLedgerCommercialLocationNo())
+
         sqlc.close()
     return
 

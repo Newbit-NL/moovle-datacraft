@@ -1,10 +1,11 @@
 import json
 
 import pandas as pd
+import numpy as np
 
 def parsingDate(date):
     if date == '0001-01-01':
-        return None
+        return pd.NA
     else:
         return date
 
@@ -146,11 +147,13 @@ class Tables:
                 'postingDate': parsingDate(e['postingDate']),
                 'documentType': e['documentType'],
                 'documentNo': e['documentNo'],
+                'customerNo': e['sourceNo'] if (e['globalDimension1Code'] == '' and e['sourceNo'][:1] != 'L') else pd.NA if (e['globalDimension1Code'] == '' and e['sourceNo'][:1] == 'L') else e['globalDimension1Code'],
+                'vendorNo': e['sourceNo'] if e['sourceNo'][:1] == 'L' else pd.NA,
                 'description': e['description'],
                 'balAccountNo': e['balAccountNo'],
                 'amount': e['amount'],
-                'globalDimension1Code': e['globalDimension1Code'],
-                'globalDimension2Code': e['globalDimension2Code'],
+                'globalDimension1Code': e['globalDimension1Code'] if e['globalDimension1Code'] != '' else pd.NA,
+                'globalDimension2Code': e['globalDimension2Code'] if e['globalDimension2Code'] != '' else pd.NA,
                 'userID': e['userID'],
                 'sourceCode': e['sourceCode'],
                 'priorYearEntry': e['priorYearEntry'],
@@ -170,11 +173,12 @@ class Tables:
                 'shortcutDimension3Code': e['shortcutDimension3Code'],
                 'shortcutDimension4Code': e['shortcutDimension4Code'],
                 'lastModifiedDateTime': parsingDateTime(e['lastModifiedDateTime']),
-                'wmsDocumentNo': e['wmsDocumentNo'] if e['wmsDocumentNo'] != '' else None,
-                'wmsDocumentLineNo': e['wmsDocumentLineNo'] if e['wmsDocumentLineNo'] != '' else None,
+                'wmsDocumentNo': e['wmsDocumentNo'] if e['wmsDocumentNo'] != '' else pd.NA,
+                'wmsDocumentLineNo': e['wmsDocumentLineNo'] if e['wmsDocumentLineNo'] != '' else pd.NA,
                 'noSeries': e['noSeries'],
-                'isUTB': False if e['wmsDocumentNo'] == '' else None,
-                'isCorrectieOfJaarafsluiting': True if ((int(e['gLAccountNo']) in [1392,1393,1650,1652]) and (len(e['wmsDocumentNo']) < 2) and (e['noSeries'] == 'FIN-DOC')) else False
+                'isUTB': False if e['wmsDocumentNo'] == '' else pd.NA,
+                'isCorrectieOfJaarafsluiting': True if ((int(e['gLAccountNo']) in [1392,1393,1650,1652]) and (len(e['wmsDocumentNo']) < 2) and (e['noSeries'] == 'FIN-DOC')) else False,
+                'commercialLocationNo': e['globalDimension2Code'] if e['wmsDocumentNo'] == '' else pd.NA
             })
         return pd.DataFrame(data)
 
@@ -646,7 +650,7 @@ class Queries:
             SELECT documentNo, lineNo, isUTB
             FROM `mvl-sqldb-bi-prod`.wmsDocumentLines
             
-            UNION
+            UNION ALL
             
             SELECT documentNo, lineNo, isUTB
             FROM `mvl-sqldb-bi-prod`.wmsPostedDocumentLines
@@ -657,5 +661,27 @@ class Queries:
         SET a.isUTB = COALESCE(b.isUTB, 0)
 
         WHERE a.isUTB IS NULL;
+
+    """
+
+    def fillLedgerCommercialLocationNo():
+        return \
+    """
+        UPDATE `mvl-sqldb-bi-prod`.generalLedgerEntries a
+        LEFT JOIN (
+            SELECT `no`, shortcutDimension2Code
+            FROM `mvl-sqldb-bi-prod`.wmsDocumentHeaders
+            
+            UNION ALL
+            
+            SELECT `no`, shortcutDimension2Code
+            FROM `mvl-sqldb-bi-prod`.wmsPostedDocumentHeaders
+        ) b
+        ON a.wmsDocumentNo = b.`no`
+
+        SET a.commercialLocationNo = COALESCE(b.shortcutDimension2Code, a.globalDimension2Code)
+
+        WHERE a.commercialLocationNo IS NULL
+        AND a.globalDimension2Code IS NOT NULL;
 
     """

@@ -151,6 +151,8 @@ tables:
         postingDate DATE NOT NULL,
         documentType VARCHAR(50),
         documentNo VARCHAR(50),
+        customerNo VARCHAR(50),
+        vendorNo VARCHAR(50),
         description VARCHAR(255),
         balAccountNo VARCHAR(50),
         amount DECIMAL(18,4),
@@ -180,6 +182,7 @@ tables:
         noSeries VARCHAR(50),
         isCorrectieOfJaarafsluiting BIT NOT NULL,
         isUTB BIT NULL,
+        commercialLocationNo VARCHAR(50),
         insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY (id)"
       indexes:
