@@ -142,6 +142,19 @@ def main():
 
     ]
 
+        # Comments
+            #         """
+            # Chart_of_Accounts (is pagina, staat in legacy)
+            # Status_Steps is Odata, zoeken in API, lijkt iets met verkoopfacturen ofzo
+            # WMSDocumentCommentSheet Is deels gelukt, maar niet extended comments want ook weer legacy
+
+            #         """
+
+        # Reference for expand
+        # {'name': 'wmsDocumentHeaders', 'func': Tables.check, 'urlDir': 'boltrics/boltrics/v1.0', 'endpoint': 'wmsDocumentHeaders', 'merge': True, 'mergeKeys': ['id'], 'filter': True, 'filterField': None, 'cols': ["documentType", "no", "sellToCustomerNo", "billToCustomerNo", "dossierNo", "buildingCode", "billOfLadingType", "direction", "locationNo", "voyageNo", "timeSlotBookingNo", "timeSlotNeededCapacity", "movementType", "documentDate", "orderDate", "postingDate", "statusCode", "orderpicker", "comment", "docInfoSetID", "externalDocumentNo", "externalReference", "shippingAgentCode", "vehicleNo", "trailerContainerNo", "dockNo", "announcedDate", "announcedTime", "arrivedDate", "arrivedTime", "departedDate", "departedTime", "waitingDuration", "destination", "plannedStartDate", "plannedEndDate", "plannedStartTime", "plannedEndTime", "containerNo", "orderTypeCode", "billOfLadingNo", "senderAddressNo", "shipToAddressNo", "sendersAddressName", "shipToAddressName", "shipToAddressCity", "tripNo", "attribute01", "attribute02", "attribute03", "attribute04", "attribute05", "attribute06", "attribute07", "attribute08", "attribute09", "attribute10", "grossWeight", "netWeight", "quantity", "carrierQuantity", "shipperName"], 'expandCol': 'wmsDocumentLines', 'expandColSelect': ["documentNo", "lineNo", "sellToCustomerNo", "buyFromVendorNo", "dossierNo", "lineAmountLCY", "originalLineQty", "qtyPerCarrier", "type", "no", "itemNo", "description", "unitOfMeasureCode", "baseUnitOfMeasureCode", "quantity", "carrierQtyPosted", "grossWeight", "netWeight", "locationNo", "buildingCode", "tariffDescription", "orderTypeCode", "postingDate", "attribute02", "attribute03", "attribute04", "attribute06", "attribute09", "carrierQuantity"], 'pars': f"""arrivedDate le {(datetime.now() + timedelta(days=14)).strftime("%Y-%m-%dT%H:%M:%SZ")} and arrivedDate ge {(datetime.now()).strftime("%Y-%m-%dT%H:%M:%SZ")}"""},
+
+    ]
+
     for customer in customers:
         
         s = secrets(vaultUrl='https://bi-prod-keyvault-svnshfg.vault.azure.net/', local=True if app_env == 'local' else False, prefix=customer['credPrefix'])
@@ -167,7 +180,7 @@ def main():
         synclog = dict(sqlc.execSingle(f"SELECT tableName, MAX(date) AS date FROM `{dbName}`.{syncLogName} GROUP BY tableName"))
         for t in tbls:
             testing = True if t['func'] == Tables.check else False
-
+            # testing = True
             tableName = t['name']
             print(f"Working on {tableName}") if app_env == 'local' else None
             endpoint = f'{t['urlDir']}{'/' if t['urlDir'] else ''}{t['endpoint']}'
@@ -175,11 +188,13 @@ def main():
 
             # print((makeFilter(synclog, tableName, t['filterField'], t.get('pars', None)) if t['filter'] else {}))
             # exit()
-
-            resp = get_resp(url, headers=headers, pagination=False if testing else True, addpars=(makeFilter(synclog, tableName, t['filterField'], t.get('pars', None)) if t['filter'] else {}), cols=t['cols'], expandCol=t['expandCol'], expandColSelect=t['expandColSelect'])
+            pars = (makeFilter(synclog, tableName, t['filterField'], t.get('pars', None)) if t['filter'] else {}) if not testing else {}
+            resp = get_resp(url, headers=headers, pagination=False if testing else True, addpars=pars, cols=t['cols'], expandCol=t['expandCol'], expandColSelect=t['expandColSelect'])
             if len(resp) == 0 and testing:
                 continue
             df = t['func'](resp)
+            # df.to_csv(f"check_{tableName}.csv", index=False, sep=";", mode='a', header=True)
+            # exit()
             try:
                 sqlc.writeMany(df, tableName, dbName, merge=t['merge'], mergeKeys=t['mergeKeys'])
             except Exception as e:
@@ -195,6 +210,9 @@ def main():
         
         print('LedgerEntries kolom isUTB vullen')
         sqlc.execSingle(Queries.fillLedgerTableIsUtb())
+        print('LedgerEntries kolom commercialLocationNo vullen')
+        sqlc.execSingle(Queries.fillLedgerCommercialLocationNo())
+
         sqlc.close()
     return
 
