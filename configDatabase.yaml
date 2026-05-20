@@ -490,6 +490,19 @@ tables:
           columns:
             - id
 
+    - name: salesInvoiceHeaders
+      columns: "
+        invoiceHeaderId CHAR(36) NOT NULL,
+        systemModifiedAt DATETIME,
+        documentNo VARCHAR(50),
+        invoiceNo INT,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (invoiceHeaderId)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - invoiceHeaderId
+
   meta:
     # - name: internalEntities
     #   columns: "

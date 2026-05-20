@@ -613,6 +613,19 @@ class Tables:
 
         return pd.DataFrame(data)
 
+    def salesInvoiceHeaders(resp):
+        data = []
+        for e in resp:
+            for f in e['salesInvoiceLines']:
+                data.append({
+                    'invoiceHeaderId': e['id'],
+                    'systemModifiedAt': parsingDateTime(e['systemModifiedAt']),
+                    'documentNo': f['wmsPostedDocNo'],
+                    'invoiceNo': e['no'],
+                })
+
+        return pd.DataFrame(data).drop_duplicates()
+
 
     def sample(resp):
         data = []

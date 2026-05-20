@@ -121,7 +121,7 @@ def main():
         {'name': 'wmsDocumentCommentLines', 'func': Tables.wmsDocumentCommentLines, 'urlDir': 'boltrics/boltrics/v1.0', 'endpoint': 'wmsDocumentCommentLines', 'merge': True, 'mergeKeys': ['id'], 'filter': True, 'filterField': 'date', 'cols': ['*'], 'expandCol': None, 'expandColSelect': [], 'pars': None},
         {'name': 'purchaseHeaders', 'func': Tables.purchaseHeaders, 'urlDir': 'boltrics/boltrics/v1.0', 'endpoint': 'purchaseHeaders', 'merge': True, 'mergeKeys': ['id'], 'filter': True, 'filterField': 'postingDate', 'cols': ['id', "documentType", "no", "payToVendorNo", "payToName", "yourReference", "orderDate", "postingDate", "purchaserCode", "amount", "amountIncludingVAT", "vendorInvoiceNo", "documentDate"], 'expandCol': None, 'expandColSelect': [], 'pars': None},
         {'name': 'statusLog', 'func': Tables.statusLog, 'urlDir': 'boltrics/boltrics/v1.0', 'endpoint': 'statusLog', 'merge': True, 'mergeKeys': ['id'], 'filter': True, 'filterField': 'systemModifiedAt', 'cols': ['id', "systemModifiedAt", "entryNo", "documentNo", "oldStatusCode", "newStatusCode", "userID", 'templateCode'], 'expandCol': None, 'expandColSelect': [], 'pars': None},
-
+        {'name': 'salesInvoiceHeaders', 'func': Tables.salesInvoiceHeaders, 'urlDir': 'boltrics/boltrics/v1.0', 'endpoint': 'salesInvoiceHeaders', 'merge': True, 'mergeKeys': ['invoiceHeaderId'], 'filter': True, 'filterField': 'systemModifiedAt', 'cols': ['id', 'systemModifiedAt', 'externalDocumentNo', 'no'], 'expandCol': 'salesInvoiceLines', 'expandColSelect': ['id', 'wmsPostedDocNo'], 'pars': None},
 
     ]
 
