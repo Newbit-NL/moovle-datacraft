@@ -626,6 +626,29 @@ class Tables:
 
         return pd.DataFrame(data).drop_duplicates()
 
+    def detailedCustomerLedgerEntries(resp):
+        data = []
+        for e in resp:
+            data.append({
+                'id': e['id'],
+                'entryNumber': e['entryNumber'],
+                'custLedgerEntryNumber': e['custLedgerEntryNumber'],
+                'postingDate': parsingDate(e['postingDate']),
+                'documentType': e['documentType'],
+                'documentNumber': e['documentNumber'],
+                'amount': e['amount'],
+                'customerNumber': e['customerNumber'],
+                'sourceCode': e['sourceCode'],
+                'transactionNumber': e['transactionNumber'],
+                'initialEntryDueDate': parsingDate(e['initialEntryDueDate']),
+                'initialDocumentType': e['initialDocumentType'],
+                'initialDocumentNumber': e['initialDocumentNumber'],
+                'appliedCustLedgerEntryNumber': e['appliedCustLedgerEntryNumber'],
+            })
+
+        return pd.DataFrame(data).drop_duplicates()
+
+
 
     def sample(resp):
         data = []

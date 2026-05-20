@@ -503,6 +503,29 @@ tables:
           columns:
             - invoiceHeaderId
 
+    - name: detailedCustomerLedgerEntries
+      columns: "
+        id CHAR(36) NOT NULL,
+        entryNumber INT,
+        custLedgerEntryNumber INT,
+        postingDate DATE,
+        documentType VARCHAR(50),
+        documentNumber VARCHAR(50),
+        amount DECIMAL(18,4),
+        customerNumber VARCHAR(50),
+        sourceCode VARCHAR(50),
+        transactionNumber INT,
+        initialEntryDueDate DATE,
+        initialDocumentType VARCHAR(50),
+        initialDocumentNumber VARCHAR(50),
+        appliedCustLedgerEntryNumber INT,
+        insertedTimestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)"
+      indexes:
+        - name: IX_Id
+          columns:
+            - id
+
   meta:
     # - name: internalEntities
     #   columns: "
